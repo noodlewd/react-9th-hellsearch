@@ -1,7 +1,7 @@
 import React from "react";
 
 const FeedDetail = () => {
-  return <div>FeedDetail</div>;
+  return <div>피드디테일 페이지</div>;
 };
 
 export default FeedDetail;
