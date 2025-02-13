@@ -15,7 +15,6 @@ function App() {
 
   return (
     <>
-      test
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
