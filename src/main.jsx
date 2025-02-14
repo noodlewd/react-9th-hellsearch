@@ -3,10 +3,11 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import HealthProvider from "./context/HealthProvider.jsx";
+import FeedAdd from "./pages/FeedAdd";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <HealthProvider value={}>
+    <HealthProvider >
       <App />
     </HealthProvider>
   </StrictMode>
