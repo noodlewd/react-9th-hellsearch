@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 const FeedDetail = () => {
-  return <div>FeedDetail</div>;
+  const [allFeed, setAllFeed] = useState([]);
+
+  return;
 };
 
 export default FeedDetail;
