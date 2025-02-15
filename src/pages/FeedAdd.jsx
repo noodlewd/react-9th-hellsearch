@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../supabase/client";
 
@@ -6,35 +6,69 @@ const FeedAdd = () => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
   const [content, setContent] = useState("");
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  //  로그인 여부 확인
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data?.user) {
+        alert("로그인이 필요합니다.");
+        navigate("/"); // 로그인 페이지로 이동
+      } else {
+        setUser(data.user);
+      }
+    };
+
+    checkUser();
+  }, [navigate]);
+
+  //  피드 등록 핸들러
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    // 로그인 여부 다시 체크
+    if (!user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     let imageUrl = null;
 
+    //  이미지 업로드 처리
     if (image) {
+      const filePath = `public/${Date.now()}_${image.name}`;
       const { data, error: uploadError } = await supabase.storage
         .from("feed_img")
-        .upload(`public/${Date.now()}${image.name}`, image);
+        .upload(filePath, image);
 
       if (uploadError) {
         console.error("이미지 업로드 실패:", uploadError);
         return;
-      } else {
-        console.log("이미지 업로드 성공:", data);
-        imageUrl = `${supabase.storage
-          .from("feed_img")
-          .getPublicUrl(`public/${image.name}`)}`;
       }
+
+      //  업로드된 이미지 URL 가져오기
+      const { data: urlData } = supabase.storage
+        .from("feed_img")
+        .getPublicUrl(filePath);
+      imageUrl = urlData.publicUrl;
     }
 
-    const { data, error } = await supabase.from("feeds").insert({
+    //  피드 데이터 삽입 (user_id 추가)
+    const { error } = await supabase.from("feeds").insert({
       title: title,
       content_img: imageUrl,
       content: content,
+      user_id: user.id, // 현재 로그인한 사용자 ID 추가
     });
-    if (error) throw error;
 
+    if (error) {
+      console.error("피드 등록 실패:", error);
+      return;
+    }
+
+    alert("피드가 성공적으로 등록되었습니다.");
     navigate("/feedmain");
   };
 
@@ -60,6 +94,7 @@ const FeedAdd = () => {
         <input
           type="text"
           value={content}
+          placeholder="내용을 입력하세요."
           onChange={(e) => setContent(e.target.value)}
         />
         <button type="submit">등록하기</button>
@@ -70,6 +105,5 @@ const FeedAdd = () => {
     </>
   );
 };
-// 제목, 이미지, 내용 인풋데이터
 
 export default FeedAdd;
