@@ -11,8 +11,6 @@ import FeedDetail from "./pages/FeedDetail";
 import FeedAdd from "./pages/FeedAdd";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <BrowserRouter>
