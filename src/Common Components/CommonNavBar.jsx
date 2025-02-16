@@ -1,7 +1,12 @@
 import { useContext, useEffect } from "react";
 import { HealthContext } from "../context/HealthProvider";
 import { Link } from "react-router-dom";
-import { StLogoIcon, StMyPageIcon } from "../styled/StyledComponents";
+import {
+  StLogoIcon,
+  StMyPageIcon,
+  StNavBarWrapper,
+  StSearchBarWrapper,
+} from "../styled/StyledComponents";
 import logo from "../assets/logoIcon.png";
 import log from "../assets/mypageIcon.png";
 
@@ -19,26 +24,27 @@ const CommonNavBar = ({ allFeed, setAllFeed }) => {
   };
 
   return (
-    <nav>
+    <StNavBarWrapper>
       <span>
         <Link to={"/feedmain"}>
           <StLogoIcon src={logo} />
         </Link>
       </span>
-      <span>
+      <StSearchBarWrapper>
         <input
           type="text"
           value={searchKey}
           onChange={(e) => {
             setSearchKey(e.target.value);
           }}
+          placeholder="검색어를 입력해주세요"
         ></input>
         <button onClick={handleSearchBtn}>검색</button>
-      </span>
+      </StSearchBarWrapper>
       <Link to={"/mypage"}>
         <StMyPageIcon src={log} />
       </Link>
-    </nav>
+    </StNavBarWrapper>
   );
 };
 
