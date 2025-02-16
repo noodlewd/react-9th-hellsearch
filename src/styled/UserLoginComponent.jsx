@@ -14,6 +14,8 @@ export const LoginLogo = styled.img`
   height: 200px;
 `;
 
+export const LoginTitle = styled.h2``;
+
 export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
