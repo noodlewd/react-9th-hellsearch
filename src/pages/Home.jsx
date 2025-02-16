@@ -1,19 +1,16 @@
 import React, { useContext } from "react";
 import { HealthContext } from "../context/HealthProvider";
-import { LoginBox, LoginForm, LoginInput, LoginLabel, LoginLogo } from "../styled/UserComponent";
+import { LoginBox, LoginForm, LoginInput, LoginLabel, LoginLogo, LoginTitle } from "../styled/UserLoginComponent";
 import { UserButton } from "../styled/StyledComponents";
 import loginlogo from "../assets/loginlogo.png";
+
 const Home = () => {
   const { handleLogin, emailInput, setEmailInput, pwInput, setPwInput, handleMoveJoin } = useContext(HealthContext);
-
-  // 로그인
-
-  // 회원가입 페이지 이동
 
   return (
     <LoginBox>
       <LoginLogo src={loginlogo} alt="logo" />
-      <h2>로그인</h2>
+      <LoginTitle>로그인</LoginTitle>
       <LoginForm onSubmit={handleLogin}>
         <LoginLabel>
           ID
