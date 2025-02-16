@@ -6,8 +6,8 @@ import HealthProvider from "./context/HealthProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <HealthProvider value={}>
-      <App />
-    </HealthProvider>
+    {/* <HealthProvider> */}
+    <App />
+    {/* </HealthProvider> */}
   </StrictMode>
 );
