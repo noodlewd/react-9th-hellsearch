@@ -39,6 +39,7 @@ const FeedMain = () => {
       <CommonNavBar allFeed={allFeed} setAllFeed={setAllFeed} />
       {(searchedFeed.length > 0 ? searchedFeed : allFeed).map((e) => {
         return (
+          /*여기를 나중에 feedContetn로 대체하고 propdrilling*/
           <div key={e.feed_id} style={{ border: "1px solid green" }}>
             <span>제목:{e.title}</span>
             <br />
