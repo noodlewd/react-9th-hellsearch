@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { HealthContext } from "../context/HealthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   StLogoIcon,
   StMyPageIcon,
@@ -14,7 +14,8 @@ const CommonNavBar = ({ allFeed, setAllFeed }) => {
   const { searchKey, setSearchKey, setSearchedFeed } =
     useContext(HealthContext);
 
-  const handleSearchBtn = () => {
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
     //검색 버튼 클릭시
     const searchedData = allFeed.filter((e) => {
       return e.title.includes(searchKey) || e.content.includes(searchKey);
@@ -31,15 +32,17 @@ const CommonNavBar = ({ allFeed, setAllFeed }) => {
         </Link>
       </span>
       <StSearchBarWrapper>
-        <input
-          type="text"
-          value={searchKey}
-          onChange={(e) => {
-            setSearchKey(e.target.value);
-          }}
-          placeholder="검색어를 입력해주세요"
-        ></input>
-        <button onClick={handleSearchBtn}>검색</button>
+        <form onSubmit={onSubmitHandler}>
+          <input
+            type="text"
+            value={searchKey}
+            onChange={(e) => {
+              setSearchKey(e.target.value);
+            }}
+            placeholder="제목 & 내용 기반으로 검색"
+          ></input>
+          <button>검색</button>
+        </form>
       </StSearchBarWrapper>
       <Link to={"/mypage"}>
         <StMyPageIcon src={log} />
