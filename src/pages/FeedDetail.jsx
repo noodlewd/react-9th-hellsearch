@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import supabase from "../supabase/client";
 import { HealthContext } from "../context/HealthProvider";
 
-// 좋아요, 댓글수정삭제 기능추가 // 머지시급
+// 댓글 수정삭제 넣어야함 // 머지시급
 
 const MyDetail = () => {
   const { nickname } = useContext(HealthContext);
@@ -35,8 +35,21 @@ const MyDetail = () => {
       else setComments(data);
     };
 
+    const fetchLikes = async () => {
+      const { data, error } = await supabase
+        .from("likes")
+        .select("*")
+        .eq("post_id", postId);
+      if (error) console.log("좋아요 불러오기 오류:", error);
+      else {
+        setLikes(data.length);
+        setIsLiked(data.some((like) => like.user_id === nickname));
+      }
+    };
+
     fetchPost();
     fetchComments();
+    fetchLikes();
   }, [postId, nickname]);
 
   // 댓글 추가하기
@@ -57,6 +70,24 @@ const MyDetail = () => {
     }
   };
 
+  // 좋아요 버튼 클릭
+  const handleLike = async () => {
+    if (isLiked) {
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("post_id", postId)
+        .eq("user_id", nickname);
+      setLikes(likes - 1);
+    } else {
+      await supabase
+        .from("likes")
+        .insert([{ post_id: postId, user_id: nickname }]);
+      setLikes(likes + 1);
+    }
+    setIsLiked(!isLiked);
+  };
+
   if (!post) return <p>로딩 중...</p>;
 
   return (
@@ -68,6 +99,10 @@ const MyDetail = () => {
         style={{ width: "100%" }}
       />
       <p>{post.content}</p>
+
+      <button onClick={handleLike}>
+        {isLiked ? "❤️" : "🤍"} {likes}
+      </button>
 
       <h3>댓글</h3>
       {nickname && (
