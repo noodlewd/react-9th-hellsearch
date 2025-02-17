@@ -5,6 +5,7 @@ import { UserButton } from "../styled/StyledComponents";
 import loginlogo from "../assets/loginlogo.png";
 
 const Home = () => {
+  // context api 사용하여 가져오기
   const { handleLogin, emailInput, setEmailInput, pwInput, setPwInput, handleMoveJoin } = useContext(HealthContext);
 
   return (
@@ -25,7 +26,7 @@ const Home = () => {
         <LoginLabel>
           PW
           <LoginInput
-            type="text"
+            type="password"
             placeholder="비밀번호를 입력하세요."
             value={pwInput}
             onChange={(e) => setPwInput(e.target.value)}
