@@ -11,6 +11,8 @@ const HealthProvider = ({ children }) => {
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [phoneNum, setPhoneNum] = useState(0);
+  const [searchKey, setSearchKey] = useState("");
+  const [searchedFeed, setSearchedFeed] = useState([]);
   const navigate = useNavigate();
 
   // 로그인
@@ -77,6 +79,10 @@ const HealthProvider = ({ children }) => {
     pwInput,
     setPwInput,
     handleMoveJoin,
+    searchKey,
+    setSearchKey,
+    searchedFeed,
+    setSearchedFeed,
   };
   // context provider로 감싸준 후 자식 컴포넌트들에게 데이터를 넘겨줌
   return (
