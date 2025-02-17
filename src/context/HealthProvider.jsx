@@ -86,7 +86,9 @@ const HealthProvider = ({ children }) => {
     setSearchedFeed,
   };
   // context provider로 감싸준 후 자식 컴포넌트들에게 데이터를 넘겨줌
-  return <HealthContext.Provider value={value}>{children}</HealthContext.Provider>;
+  return (
+    <HealthContext.Provider value={value}>{children}</HealthContext.Provider>
+  );
 };
 
 export default HealthProvider;
