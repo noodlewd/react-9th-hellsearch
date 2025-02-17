@@ -3,9 +3,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import supabase from "../supabase/client";
 import { useNavigate } from "react-router-dom";
-// import { HealthContext } from "../context/HealthProvider";
+import { HealthContext } from "../context/HealthProvider";
 
-// const DEFAULT_PROFILE_IMAGE = "https://your-default-image-url.com/default.png"; // 디폴트 프로필 이미지 URL
+const DEFAULT_PROFILE_IMAGE = "https://your-default-image-url.com/default.png"; // 디폴트 프로필 이미지 URL
 // css, 이미지 경로수정, 아래쪽 주석들 보고 질문
 
 const MyPage = () => {
@@ -26,10 +26,7 @@ const MyPage = () => {
       setLoadingPosts(false);
       return;
     }
-    const { data: posts, error: postError } = await supabase
-      .from("posts")
-      .select("*")
-      .eq("user_id", userId);
+    const { data: posts, error: postError } = await supabase.from("feeds").select("*").eq("user_id", userId);
     if (postError) {
       console.error("게시물을 가져오는 데 실패했습니다:", postError);
     } else {
@@ -43,16 +40,8 @@ const MyPage = () => {
   }, []);
 
   const navigate = useNavigate();
-  const {
-    profileUrl,
-    setProfileUrl,
-    nickname,
-    setNickname,
-    email,
-    setEmail,
-    phoneNum,
-    setPhoneNum,
-  } = useContext(HealthContext);
+  const { profileUrl, setProfileUrl, nickname, setNickname, email, setEmail, phoneNum, setPhoneNum } =
+    useContext(HealthContext);
   const [myNickname, setMyNickname] = useState(nickname);
   const [myEmail, setMyEmail] = useState(email);
   const [myPhoneNum, setMyPhoneNum] = useState(phoneNum);
@@ -60,10 +49,7 @@ const MyPage = () => {
 
   // 닉네임 중복 검사
   const checkMyNickname = async (myNickname) => {
-    const { data, error } = await supabase
-      .from("users")
-      .select("nickname")
-      .eq("nickname", myNickname);
+    const { data, error } = await supabase.from("users").select("nickname").eq("nickname", myNickname);
 
     if (error) {
       console.error("닉네임 중복 검사 실패:", error);
@@ -95,10 +81,7 @@ const MyPage = () => {
       return;
     }
 
-    const { error } = await supabase
-      .from("users")
-      .update(updates)
-      .eq("nickname", nickname);
+    const { error } = await supabase.from("users").update(updates).eq("nickname", nickname);
 
     if (error) {
       alert("프로필 업데이트 실패");
@@ -133,9 +116,7 @@ const MyPage = () => {
       return;
     }
 
-    const { data } = supabase.storage
-      .from("profile_pictures")
-      .getPublicUrl(filePath);
+    const { data } = supabase.storage.from("profile_pictures").getPublicUrl(filePath);
 
     const newProfileUrl = data.publicUrl;
 
@@ -157,17 +138,8 @@ const MyPage = () => {
   return (
     <div>
       <h2>My Page</h2>
-      <img
-        src={profileUrl || DEFAULT_PROFILE_IMAGE}
-        alt="Profile"
-        width={150}
-      />
-      <button
-        onClick={() => document.getElementById("profile-upload").click()}
-        disabled={uploading}
-      >
-        이미지 수정하기
-      </button>
+      <img src={profileUrl || DEFAULT_PROFILE_IMAGE} alt="Profile" width={150} />
+      <button onClick={() => document.getElementById("profile-upload").click()}>이미지 수정하기</button>
       <input
         id="profile-upload"
         type="file"
@@ -175,7 +147,7 @@ const MyPage = () => {
         onChange={handleImageUpload}
         hidden
       />
-      {uploading && <p>업로드 중...</p>}
+
       <input
         type="file"
         accept="image/*" // 경로 체크 !!
@@ -184,23 +156,11 @@ const MyPage = () => {
       />
       {isMyUploading && <p>업로드 중...</p>}
       <label>닉네임:</label>
-      <input
-        type="text"
-        value={myNickname}
-        onChange={(e) => setMyNickname(e.target.value)}
-      />
+      <input type="text" value={myNickname} onChange={(e) => setMyNickname(e.target.value)} />
       <label>e-mail:</label>
-      <input
-        type="email"
-        value={myEmail}
-        onChange={(e) => setMyEmail(e.target.value)}
-      />
+      <input type="email" value={myEmail} onChange={(e) => setMyEmail(e.target.value)} />
       <label>휴대폰:</label>
-      <input
-        type="text"
-        value={myPhoneNum}
-        onChange={(e) => setMyPhoneNum(e.target.value)}
-      />
+      <input type="text" value={myPhoneNum} onChange={(e) => setMyPhoneNum(e.target.value)} />
       <button onClick={fetchMyPosts}>내 게시물 보기</button>
       <button onClick={handleMyProfileUpdate}>수정하기</button>
       <button onClick={() => navigate(-1)}>뒤로가기 </button>
