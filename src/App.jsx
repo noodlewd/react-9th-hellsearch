@@ -5,8 +5,8 @@ import Home from "./pages/Home";
 import Join from "./pages/Join";
 import FeedMain from "./pages/FeedMain";
 import MyPage from "./pages/MyPage";
-import FeedDetail from "./pages/FeedDetail";
 import FeedAdd from "./pages/FeedAdd";
+import FeedEdit from "./pages/FeedEdit";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,7 +18,7 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/feedmain" element={<FeedMain />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/feeddetail/:id" element={<FeedDetail />} />
+        <Route path="/feededit/:feedId" element={<FeedEdit />} />
         <Route path="/feedadd" element={<FeedAdd />} />
       </Routes>
     </>
