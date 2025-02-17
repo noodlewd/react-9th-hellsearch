@@ -1,50 +1,48 @@
-import { useContext, useEffect, useState } from "react";
-import supabase from "../supabase/client";
-import CommonNavBar from "../Common Components/CommonNavBar";
+import React, { useContext, useEffect } from "react";
 import { HealthContext } from "../context/HealthProvider";
-import { StFeedAddIcon } from "../styled/StyledComponents";
-import { Link } from "react-router-dom";
+import supabase from "../supabase/client";
+import { useNavigate } from "react-router-dom";
 
 const FeedMain = () => {
-  const [allFeed, setAllFeed] = useState([]);
-  const { searchedFeed } = useContext(HealthContext);
+  const navigate = useNavigate();
+  const { nickname } = useContext(HealthContext);
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+
+      navigate("/");
+    } catch (error) {
+      console.log("로그아웃 오류", error);
+    }
+  };
 
   useEffect(() => {
-    const getFeeds = async () => {
-      try {
-        const { data, error } = await supabase.from("feeds").select("*");
-        if (error) throw error;
-        console.log(data);
-        setAllFeed(data);
-      } catch (error) {
-        console.log(error);
+    // 사용자가 세션정보가 없는 경우 리다이렉션
+    const session = supabase.auth.getSession();
+    if (!session) {
+      alert("비정상적인 접근입니다. 로그인을 먼저 해주세요.");
+      navigate("/");
+    }
+    // 인증 상태 변경시 확인하는 리스너
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (!session) {
+          alert("세션이 만료 되었습니다. 다시 로그인 해주세요.");
+          navigate("/");
+        }
       }
+    );
+    return () => {
+      authListener();
     };
-    getFeeds();
-  }, []);
-
+  }, [navigate]);
   return (
-    <>
-      <CommonNavBar allFeed={allFeed} setAllFeed={setAllFeed} />
-      {(searchedFeed.length > 0 ? searchedFeed : allFeed).map((e) => {
-        return (
-          <div key={e.feed_id} style={{ border: "1px solid green" }}>
-            <span>제목:{e.title}</span>
-            <br />
-            <span>이미지:{e.img}</span>
-            <br />
-            <span>내용:{e.content}</span>
-            <br />
-            <span>created_at:{e.created_at}</span>
-            <br />
-            <span>updated_at:{e.updated_at}</span>
-          </div>
-        );
-      })}
-      <Link to={"/feedadd"}>
-        <StFeedAddIcon>+글작성</StFeedAddIcon>
-      </Link>
-    </>
+    <div>
+      <h2>{nickname}페이지</h2>
+      <button onClick={handleLogout}>로그아웃</button>
+    </div>
   );
 };
 

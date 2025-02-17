@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 
 const FeedDetail = () => {
-  const [allFeed, setAllFeed] = useState([]);
-  
-  return (
-    <>
-      {allFeed.map((e) => {
-        <FeedContent />;
-      })}
-    </>
-  );
+  return <div>text feedDetail </div>;
 };
 
 export default FeedDetail;
