@@ -3,9 +3,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import supabase from "../supabase/client";
 import { useNavigate } from "react-router-dom";
-// import { HealthContext } from "../context/HealthProvider";
+import { HealthContext } from "../context/HealthProvider";
 
-// const DEFAULT_PROFILE_IMAGE = "https://your-default-image-url.com/default.png"; // 디폴트 프로필 이미지 URL
+const DEFAULT_PROFILE_IMAGE = "https://your-default-image-url.com/default.png"; // 디폴트 프로필 이미지 URL
 // css, 이미지 경로수정, 아래쪽 주석들 보고 질문
 
 const MyPage = () => {
@@ -27,7 +27,7 @@ const MyPage = () => {
       return;
     }
     const { data: posts, error: postError } = await supabase
-      .from("posts")
+      .from("feeds")
       .select("*")
       .eq("user_id", userId);
     if (postError) {
@@ -162,10 +162,7 @@ const MyPage = () => {
         alt="Profile"
         width={150}
       />
-      <button
-        onClick={() => document.getElementById("profile-upload").click()}
-        disabled={uploading}
-      >
+      <button onClick={() => document.getElementById("profile-upload").click()}>
         이미지 수정하기
       </button>
       <input
@@ -175,7 +172,6 @@ const MyPage = () => {
         onChange={handleImageUpload}
         hidden
       />
-      {uploading && <p>업로드 중...</p>}
       <input
         type="file"
         accept="image/*" // 경로 체크 !!

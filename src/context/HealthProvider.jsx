@@ -1,3 +1,4 @@
+import { createContext, useState } from "react";
 import supabase from "../supabase/client";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,6 +12,8 @@ const HealthProvider = ({ children }) => {
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [phoneNum, setPhoneNum] = useState(0);
+  const [searchKey, setSearchKey] = useState("");
+  const [searchedFeed, setSearchedFeed] = useState([]);
   const navigate = useNavigate();
 
   // 로그인
@@ -77,11 +80,13 @@ const HealthProvider = ({ children }) => {
     pwInput,
     setPwInput,
     handleMoveJoin,
+    searchKey,
+    setSearchKey,
+    searchedFeed,
+    setSearchedFeed,
   };
   // context provider로 감싸준 후 자식 컴포넌트들에게 데이터를 넘겨줌
-  return (
-    <HealthContext.Provider value={value}>{children}</HealthContext.Provider>
-  );
+  return <HealthContext.Provider value={value}>{children}</HealthContext.Provider>;
 };
 
 export default HealthProvider;
