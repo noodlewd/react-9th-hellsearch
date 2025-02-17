@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import supabase from "../supabase/client";
 
 const FeedAdd = () => {
@@ -7,6 +8,7 @@ const FeedAdd = () => {
   const [image, setImage] = useState(null);
   const [content, setContent] = useState("");
   const [user, setUser] = useState(null);
+  const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
 
   //  로그인 여부 확인
@@ -18,6 +20,7 @@ const FeedAdd = () => {
         navigate("/"); // 로그인 페이지로 이동
       } else {
         setUser(data.user);
+        
       }
     };
 
@@ -27,6 +30,7 @@ const FeedAdd = () => {
   //  피드 등록 핸들러
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setNickname(user.nickname);
 
     // 로그인 여부 다시 체크
     if (!user) {
@@ -61,7 +65,7 @@ const FeedAdd = () => {
       content_img: imageUrl,
       content: content,
       user_id: user.id, // 현재 로그인한 사용자 ID 추가
-      nickname: user.nickname,
+      nickname: nickname,
     });
 
     if (error) {
@@ -79,8 +83,8 @@ const FeedAdd = () => {
 
   return (
     <>
-      <h1>피드 추가 페이지</h1>
-      <form onSubmit={onSubmitHandler}>
+      <Container onSubmit={onSubmitHandler}>
+        <h1>피드 추가 페이지</h1>
         <input
           type="text"
           value={title}
@@ -98,13 +102,30 @@ const FeedAdd = () => {
           placeholder="내용을 입력하세요."
           onChange={(e) => setContent(e.target.value)}
         />
-        <button type="submit">등록하기</button>
-        <button type="button" onClick={goMainClick}>
-          뒤로가기
-        </button>
-      </form>
+        <div>
+          <button type="submit">등록하기</button>
+          <button type="button" onClick={goMainClick}>
+            뒤로가기
+          </button>
+        </div>
+      </Container>
     </>
   );
 };
+
+const Container = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 3rem;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+
+  button {
+    padding: 10px;
+    margin: 5px;
+  }
+`;
 
 export default FeedAdd;

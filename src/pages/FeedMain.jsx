@@ -6,13 +6,11 @@ import { StFeedAddIcon } from "../styled/StyledComponents";
 import { Link, useNavigate } from "react-router-dom";
 import { BottomScrollListener } from "react-bottom-scroll-listener";
 import FeedContent from "../FeedContent";
-
 const FeedMain = () => {
   const [allFeed, setAllFeed] = useState([]);
   const { searchedFeed } = useContext(HealthContext);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-
   const getFeeds = async (page) => {
     try {
       const { data, error } = await supabase
@@ -25,17 +23,19 @@ const FeedMain = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     //page가 증가할때마 getFeeds호출
     getFeeds(page);
   }, [page]);
-
   const handelBottomScroll = () => {
     //BottomScrollListener를 통해 페이지의 하단일 경우 호출되는함수(페이지를 한개 추가)
     setPage((prevPage) => prevPage + 1);
   };
-
+  const handleDeleteFeed = (feedId) => {
+    setAllFeed((prevFeeds) =>
+      prevFeeds.filter((feed) => feed.feed_id !== feedId)
+    );
+  };
   useEffect(() => {
     //   // 사용자가 세션정보가 없는 경우 리다이렉션 && notice: 테스트시에는 이 부붑을 주석 처리할것
     const {
@@ -50,14 +50,11 @@ const FeedMain = () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
-
   return (
     <>
       <CommonNavBar allFeed={allFeed} setAllFeed={setAllFeed} />
       {(searchedFeed.length > 0 ? searchedFeed : allFeed).map((e) => {
-        return (
-            <FeedContent feed={e}/>
-        );
+        return <FeedContent feed={e} onDeleteFeed={handleDeleteFeed} />;
       })}
       <BottomScrollListener onBottom={handelBottomScroll} />
       <Link to={"/feedadd"}>
@@ -66,5 +63,4 @@ const FeedMain = () => {
     </>
   );
 };
-
 export default FeedMain;
