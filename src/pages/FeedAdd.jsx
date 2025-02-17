@@ -61,6 +61,7 @@ const FeedAdd = () => {
       content_img: imageUrl,
       content: content,
       user_id: user.id, // 현재 로그인한 사용자 ID 추가
+      nickname: user.nickname,
     });
 
     if (error) {
