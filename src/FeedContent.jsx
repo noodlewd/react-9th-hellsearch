@@ -2,25 +2,25 @@ import React, { useEffect, useState } from "react";
 import supabase from "./supabase/client";
 
 const FeedContent = ({ feed }) => {
-  const [feeds, setFeeds] = useState([]); // 피드 담을 배열
+  // const [feeds, setFeeds] = useState([]); // 피드 담을 배열
   const [likes, setLikes] = useState(0); // 좋아요 상태 관리
   const [isToggled, setIsToggled] = useState(false); // 버튼 토글 상태 관리
   const [isOpen, setIsOpen] = useState(false);
 
-  // feed 테이블에서 userid를 가진 데이터 가져오기
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data: feedsData, error } = await supabase
-        .from("feeds")
-        .select("*");
-      if (error) {
-        console.error("데이터 불러오기 실패:", error);
-      } else {
-        setFeeds(feedsData);
-      }
-    };
-    fetchData();
-  }, []);
+  // feed 테이블에서 userid를 가진 데이터 가져오기 feedmain으로
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data: feedsData, error } = await supabase
+  //       .from("feeds")
+  //       .select("*");
+  //     if (error) {
+  //       console.error("데이터 불러오기 실패:", error);
+  //     } else {
+  //       setFeeds(feedsData);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   //드롭다운 버튼
   const toggleDropdown = () => {
