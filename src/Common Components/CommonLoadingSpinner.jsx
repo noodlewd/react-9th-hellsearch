@@ -2,6 +2,7 @@ import React from "react";
 
 const CommonLoadingSpinner = () => {
   //로딩 스피너 관련
+  //추가 안할수도 있음
   const spin = keyframes`
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg); }
