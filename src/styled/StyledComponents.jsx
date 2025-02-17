@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import dropdown from "../assets/dropdown.png";
+import addImg from "../assets/addFeedImg.png";
+
 //페이지 메인 로고 크기
 export const StLogoIcon = styled.img`
   width: 200px;
@@ -18,6 +21,9 @@ export const StFeedAddIcon = styled.div`
   right: 40px;
   position: fixed;
   background-color: rgb(216, 216, 216);
+  background-image: url(${addImg});
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 //마이페이지 아이콘 크기 설정
 export const StMyPageIcon = styled.img`
@@ -51,4 +57,45 @@ export const StNavBarWrapper = styled.nav`
   position: relative;
   height: 50px;
 `;
+//네비게이션바 드롭다운 리스트 관련 css
+export const StDropdownWrapper = styled.div`
+  position: relative;
+  margin-left: 10px;
+`;
 
+export const StDropdownButton = styled.button`
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-image: url(${dropdown});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
+export const StDropdownMenu = styled.ul`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 200px;
+  list-style: none;
+  padding: 0;
+  margin: 5px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: ${(props) => (props.$show === "true" ? "block" : "none")};
+`;
+
+export const StDropdownItem = styled.li`
+  padding: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+`;
