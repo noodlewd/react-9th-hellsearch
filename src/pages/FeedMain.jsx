@@ -6,13 +6,11 @@ import { StFeedAddIcon } from "../styled/StyledComponents";
 import { Link, useNavigate } from "react-router-dom";
 import { BottomScrollListener } from "react-bottom-scroll-listener";
 import FeedContent from "../FeedContent";
-
 const FeedMain = () => {
   const [allFeed, setAllFeed] = useState([]);
   const { searchedFeed } = useContext(HealthContext);
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-
   const getFeeds = async (page) => {
     try {
       const { data, error } = await supabase
@@ -25,11 +23,9 @@ const FeedMain = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     getFeeds(page);
   }, [page]);
-
   const handelBottomScroll = () => {
     setPage((prevPage) => prevPage + 1);
   };
@@ -55,7 +51,6 @@ const FeedMain = () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
-
   return (
     <>
       <CommonNavBar allFeed={allFeed} setAllFeed={setAllFeed} />
@@ -71,5 +66,4 @@ const FeedMain = () => {
     </>
   );
 };
-
 export default FeedMain;
