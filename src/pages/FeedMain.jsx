@@ -5,6 +5,7 @@ import { HealthContext } from "../context/HealthProvider";
 import { StFeedAddIcon } from "../styled/StyledComponents";
 import { Link, useNavigate } from "react-router-dom";
 import { BottomScrollListener } from "react-bottom-scroll-listener";
+import FeedContent from "../FeedContent";
 
 const FeedMain = () => {
   const [allFeed, setAllFeed] = useState([]);
@@ -36,26 +37,17 @@ const FeedMain = () => {
   };
 
   useEffect(() => {
-    // 사용자가 세션정보가 없는 경우 리다이렉션 && notice: 테스트시에는 이 부붑을 주석 처리할것
-    const session = supabase.auth.getSession(); //!잘은 이해 못했지만 session을 사용하면 세션객체가 null인경우 undefined가 리턴되어 예상치 못한 경우가 생겨서 getSession사용
-
-    if (!session) {
-      alert("비정상적인 접근입니다. 로그인을 먼저 해주세요.");
-      navigate("/");
-    }
-
-    // 인증 상태 변경시 확인하는 리스너
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (!session) {
-          alert("세션이 만료 되었습니다. 다시 로그인 해주세요.");
-          navigate("/");
-        }
+    //   // 사용자가 세션정보가 없는 경우 리다이렉션 && notice: 테스트시에는 이 부붑을 주석 처리할것
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session) {
+        alert("세션이 만료 되었습니다. 다시 로그인 해주세요.");
+        navigate("/");
       }
-    );
-
+    });
     return () => {
-      authListener.unsubscribe();
+      subscription.unsubscribe();
     };
   }, [navigate]);
 
@@ -64,25 +56,9 @@ const FeedMain = () => {
       <CommonNavBar allFeed={allFeed} setAllFeed={setAllFeed} />
       {(searchedFeed.length > 0 ? searchedFeed : allFeed).map((e) => {
         return (
-          /*여기를 나중에 feedContetn로 대체하고 propdrilling*/
-          <div key={e.feed_id} style={{ border: "1px solid green" }}>
-            <span>제목:{e.title}</span>
-            <br />
-            <span>작성자:{e.nickname}</span>
-            <br />
-            <img src={e.content_img} style={{ width: "500px" }} />
-            <br />
-            <span>내용:{e.content}</span>
-            <br />
-            <span>created_at:{e.created_at}</span>
-            <br />
-            <span>updated_at:{e.updated_at}</span>
-          </div>
+            <FeedContent feed={e}/>
         );
       })}
-      {/* <FeedContent feed_id={feed_id} title={e.title} nickname={e.nickname} 
-      content_img={e.content_img} content={e.content} updated_at={e.updated_at}/>
-      이 부분을map함수안에 할당*/}
       <BottomScrollListener onBottom={handelBottomScroll} />
       <Link to={"/feedadd"}>
         <StFeedAddIcon />

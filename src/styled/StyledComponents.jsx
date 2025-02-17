@@ -97,7 +97,7 @@ export const StDropdownMenu = styled.ul`
   padding: 0;
   margin: 5px 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: ${(props) => (props.$show === "true" ? "block" : "none")};
+  display: ${(props) => (props.show === "true" ? "block" : "none")};
 `;
 
 export const StDropdownItem = styled.li`
