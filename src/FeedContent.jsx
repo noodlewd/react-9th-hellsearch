@@ -64,7 +64,7 @@ const FeedContent = ({ feed, onDeleteFeed, onUpdateFeed }) => {
             <button onClick={(e) => likeBtnHandler(e, feed.id)}>{isToggled[feed.id] ? "좋아요 취소" : "좋아요"}</button>
             <button>댓글 달기</button>
           </div>
-          <button onClick={toggleDropdown}>{isOpen ? "닫기" : "..."}</button>
+          <button onClick={toggleDropdown}>{isOpen ? "닫기" : "더보기"}</button>
           {isOpen && userId && userId === feed.user_id && (
             <Dropdown>
               <button onClick={(event) => navigateEditHandler(event, feed.feed_id)}>수정</button>
@@ -86,8 +86,8 @@ const Container = styled.div`
 `;
 
 const FeedCard = styled.div`
-  border: 1px solid green;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid black;
+  box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   justify-content: center;

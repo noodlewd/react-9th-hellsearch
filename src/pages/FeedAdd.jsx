@@ -20,7 +20,6 @@ const FeedAdd = () => {
         navigate("/"); // 로그인 페이지로 이동
       } else {
         setUser(data.user);
-        
       }
     };
 
@@ -43,9 +42,7 @@ const FeedAdd = () => {
     //  이미지 업로드 처리
     if (image) {
       const filePath = `public/${Date.now()}_${image.name}`;
-      const { data, error: uploadError } = await supabase.storage
-        .from("feed_img")
-        .upload(filePath, image);
+      const { data, error: uploadError } = await supabase.storage.from("feed_img").upload(filePath, image);
 
       if (uploadError) {
         console.error("이미지 업로드 실패:", uploadError);
@@ -53,9 +50,7 @@ const FeedAdd = () => {
       }
 
       //  업로드된 이미지 URL 가져오기
-      const { data: urlData } = supabase.storage
-        .from("feed_img")
-        .getPublicUrl(filePath);
+      const { data: urlData } = supabase.storage.from("feed_img").getPublicUrl(filePath);
       imageUrl = urlData.publicUrl;
     }
 
@@ -84,29 +79,31 @@ const FeedAdd = () => {
   return (
     <>
       <Container onSubmit={onSubmitHandler}>
-        <h1>피드 추가 페이지</h1>
-        <input
-          type="text"
-          value={title}
-          placeholder="제목을 입력하세요."
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-        <input
-          type="text"
-          value={content}
-          placeholder="내용을 입력하세요."
-          onChange={(e) => setContent(e.target.value)}
-        />
+        <AddTitle>피드 추가 페이지</AddTitle>
+        <AddLabel>
+          제목
+          <AddInput
+            type="text"
+            value={title}
+            placeholder="제목을 입력하세요."
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </AddLabel>
+        <AddLabel>
+          내용
+          <AddInput
+            type="text"
+            value={content}
+            placeholder="내용을 입력하세요."
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </AddLabel>
+        <AddInput type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
         <div>
-          <button type="submit">등록하기</button>
-          <button type="button" onClick={goMainClick}>
+          <AddButton type="submit">등록하기</AddButton>
+          <AddButton type="button" onClick={goMainClick}>
             뒤로가기
-          </button>
+          </AddButton>
         </div>
       </Container>
     </>
@@ -125,6 +122,34 @@ const Container = styled.form`
   button {
     padding: 10px;
     margin: 5px;
+  }
+`;
+
+const AddTitle = styled.h2`
+  margin-top: 100px;
+`;
+
+const AddLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  line-height: 30px;
+`;
+
+const AddInput = styled.input`
+  width: 400px;
+  height: 50px;
+`;
+
+const AddButton = styled.button`
+  margin-top: 20px;
+  background-color: rgb(216, 216, 216);
+  width: 200px;
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: scale(0.95);
   }
 `;
 

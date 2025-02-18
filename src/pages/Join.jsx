@@ -98,7 +98,6 @@ const Join = () => {
           <JoinInput
             type="number"
             placeholder="사용하시는 휴대폰 번호를 입력해주세요."
-            value={phoneNum}
             onChange={(e) => setPhoneNum(e.target.value)}
           />
         </JoinLabel>

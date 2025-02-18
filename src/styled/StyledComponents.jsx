@@ -6,10 +6,14 @@ export const UserButton = styled.button`
   margin-top: 20px;
   background-color: rgb(216, 216, 216);
   width: 408px;
-
   height: 50px;
-`;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
 
+  &:hover {
+    transform: scale(0.95);
+  }
+`;
 
 //페이지 메인 로고 크기
 export const StLogoIcon = styled.img`
@@ -18,10 +22,11 @@ export const StLogoIcon = styled.img`
 `;
 //글쓰기 버튼 디자인
 export const StFeedAddIcon = styled.div`
-  border: 1px solid rgb(216, 216, 216);
+  border: 1px solid black;
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  box-shadow: 3px 10px black;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -33,6 +38,11 @@ export const StFeedAddIcon = styled.div`
   background-image: url(${addImg});
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  &:hover {
+    transform: scale(0.95);
+  }
 `;
 //마이페이지 아이콘 크기 설정
 export const StMyPageIcon = styled.img`

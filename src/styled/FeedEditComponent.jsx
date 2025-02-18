@@ -31,6 +31,11 @@ export const EditButton = styled.button`
   margin-top: 20px;
   background-color: rgb(216, 216, 216);
   width: 408px;
-
   height: 50px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: scale(0.95);
+  }
 `;
