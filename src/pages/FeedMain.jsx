@@ -6,6 +6,8 @@ import { StFeedAddIcon } from "../styled/StyledComponents";
 import { Link, useNavigate } from "react-router-dom";
 import { BottomScrollListener } from "react-bottom-scroll-listener";
 import FeedContent from "../FeedContent";
+import Swal from "sweetalert2";
+
 const FeedMain = () => {
   const [allFeed, setAllFeed] = useState([]);
   const { searchedFeed } = useContext(HealthContext);
@@ -43,7 +45,7 @@ const FeedMain = () => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (!session) {
-        alert("세션이 만료 되었습니다. 다시 로그인 해주세요.");
+        Swal.fire("세션이 만료 되었습니다. 다시 로그인 해주세요.");
         navigate("/");
       }
     });

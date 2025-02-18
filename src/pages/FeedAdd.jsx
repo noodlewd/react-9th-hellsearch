@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import supabase from "../supabase/client";
+import Swal from "sweetalert2";
 
 const FeedAdd = () => {
   const [title, setTitle] = useState("");
@@ -16,7 +17,7 @@ const FeedAdd = () => {
     const checkUser = async () => {
       const { data, error } = await supabase.auth.getUser();
       if (error || !data?.user) {
-        alert("로그인이 필요합니다.");
+        Swal.fire("로그인이 필요합니다.");
         navigate("/"); // 로그인 페이지로 이동
       } else {
         setUser(data.user);
@@ -33,7 +34,7 @@ const FeedAdd = () => {
 
     // 로그인 여부 다시 체크
     if (!user) {
-      alert("로그인이 필요합니다.");
+      Swal.fire("로그인이 필요합니다.");
       return;
     }
 
@@ -68,7 +69,7 @@ const FeedAdd = () => {
       return;
     }
 
-    alert("피드가 성공적으로 등록되었습니다.");
+    Swal.fire("피드가 성공적으로</br> 등록되었습니다.");
     navigate("/feedmain");
   };
 
