@@ -56,7 +56,7 @@ const FeedAdd = () => {
     }
 
     //  피드 데이터 삽입 (user_id 추가)
-    const { error } = await supabase.from("feeds").insert({
+    const { data,error } = await supabase.from("feeds").insert({
       title: title,
       content_img: imageUrl,
       content: content,
