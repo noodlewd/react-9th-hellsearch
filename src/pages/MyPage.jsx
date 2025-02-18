@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { HealthContext } from "../context/HealthProvider";
 import { MypageBox, MypageButton, MypageImg, MypageInput, MypageLabel, MypageTitle } from "../styled/MypageComponent";
 import defaultImg from "../assets/mainlogo.png";
+import Swal from "sweetalert2";
 
 const DEFAULT_PROFILE_IMAGE = "https://your-default-image-url.com/default.png"; // 디폴트 프로필 이미지 URL
 // css, 이미지 경로수정, 아래쪽 주석들 보고 질문
@@ -69,7 +70,7 @@ const MyPage = () => {
     if (myNickname && myNickname !== nickname) {
       const exists = await checkMyNickname(myNickname);
       if (exists) {
-        alert("이미 사용 중인 닉네임입니다.");
+        Swal.fire("이미 사용 중인 닉네임입니다.");
         return;
       }
       updates.nickname = myNickname;
@@ -79,14 +80,14 @@ const MyPage = () => {
     if (myPhoneNum && myPhoneNum !== phoneNum) updates.phoneNum = myPhoneNum;
 
     if (Object.keys(updates).length === 0) {
-      alert("변경된 내용이 없습니다.");
+      Swal.fire("변경된 내용이 없습니다.");
       return;
     }
 
     const { error } = await supabase.from("users").update(updates).eq("nickname", nickname);
 
     if (error) {
-      alert("프로필 업데이트 실패");
+      Swal.fire("프로필 업데이트 실패");
       console.error("업데이트 오류:", error);
       return;
     }
@@ -96,7 +97,7 @@ const MyPage = () => {
     if (updates.email) setEmail(updates.email);
     if (updates.phoneNum) setPhoneNum(updates.phoneNum);
 
-    alert("회원 정보가 업데이트되었습니다!");
+    Swal.fire("회원 정보가 업데이트되었습니다!");
   };
 
   // 프로필 이미지 업로드
@@ -113,7 +114,7 @@ const MyPage = () => {
       .upload(filePath, file, { upsert: true });
 
     if (uploadError) {
-      alert("이미지 업로드 실패");
+      Swal.fire("이미지 업로드 실패");
       isSetMyUploading(false);
       return;
     }
@@ -129,7 +130,7 @@ const MyPage = () => {
       .eq("nickname", nickname);
 
     if (updateError) {
-      alert("프로필 이미지 업데이트 실패");
+      Swal.fire("프로필 이미지 업데이트 실패");
       return;
     }
 
