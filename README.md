@@ -1,98 +1,162 @@
-컴포넌트 구조 💥💥💥 여기 부분 저희것에 맞게 수정 예정입니다!!
+ # 🏋️‍♂️ Hellsearch (Health Community)
 
-<!-- Common Components: 여러 곳에서 재사용되는 공통 컴포넌트들 (e.g., 버튼, 입력 필드 등)
-Feature-Specific Components: 특정 기능이나 페이지에만 사용되는 컴포넌트들
-Layout Components: 페이지 레이아웃을 구성하는 컴포넌트들 (e.g., Header, Footer, Sidebar 등)
-Pages: 각 페이지별로 사용되는 컴포넌트들을 해당 페이지 폴더 안에 넣어 관리  //-->
+리액트 뉴스피드 팀 프로젝트에서 내 운동피드를 올리고 공유하는 사이트를 만들었어요<br />
+백엔드는 supabase를 이용했습니다<br/>
+## ⚙️설치 방법
 
-브랜치 전략
+#### ▶️ 프로젝트 클론 : 
+#### 🛫 개발 서버 시작 : yarn dev
 
-Format
-branch-type/#issue-id
+#### 🔽 의존성 설치 : yarn install
 
-Rule
-적절한 브랜치 생성
-작업 후 해당 브랜치를 생성했던 브랜치로 PR
-작업 완료된 브랜치는 삭제
+#### 💅 styled-components 설치: yarn add styled-components
 
-Branch Type - Github Flow
+#### 🔔 Sweet Alert pakage 설치: npm install sweetalert2
 
-https://private-user-images.githubusercontent.com/50333168/298597543-1dc87948-57cf-4b1e-94ab-13c691c2cf76.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzk0MjMzOTgsIm5iZiI6MTczOTQyMzA5OCwicGF0aCI6Ii81MDMzMzE2OC8yOTg1OTc1NDMtMWRjODc5NDgtNTdjZi00YjFlLTk0YWItMTNjNjkxYzJjZjc2LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTAyMTMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwMjEzVDA1MDQ1OFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTFkODU0Yjg1ZWU0ZTYwNjIxNmY3ZjJiYWI3NTg4ZWRkODZkMmY2OTcwNzIzMjg1YzEwYzBjYTliMWU3NjVjNTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.z5j7A9CIqfjuZSv8Zg6MOpuqHxLdsfewRB8X0LN_7RM
 
-브랜치명 설명 예시
-main 배포용 브랜치 main
-dev 통합(개발)용 브랜치 dev
-feature/ 기능 개발 브랜치 feature/login
-bugfix/ 버그 수정 브랜치 bugfix/nav-bar
-hotfix/ 긴급 패치 브랜치 hotfix/payment
-chore/ 문서, 설정파일 변경 chore/update-readme
-docs/ 문서 작업 브랜치 docs/api-guide
-refactor/ 리팩토링 브랜치 refactor/homepage-ui
+### ✏️ 사용 방법 : 브라우저에서 로컬환경으로 실행하여 프로그램을 이용하실 수 있습니다.
 
-커밋 메시지
-타입 설명
-feat (#이슈번호) 새로운 기능 추가
-fix (#이슈번호) 버그 수정
-docs (#이슈번호) 문서 수정
-style (#이슈번호) 공백, 세미콜론 등 스타일 수정
-refactor (#이슈번호) 코드 리팩토링
-perf (#이슈번호) 성능 개선
-test (#이슈번호) 테스트 추가
-chore (#이슈번호) 빌드 과정 또는 보조 기능(문서 생성 기능 등) 수정
-design (#이슈번호) 기능 수정 없이 스타일(CSS)만 수정
+-----
+## 🛠️기술 스택
+- **프론트엔드** : React, Vite, React Router, JS, Styled Components
+- **개발 도구** : Visual Studio Code, Git
+- **배포** : Vercel
 
-Example 💥💥💥 여기 부분도 저희것에 맞게 수정 예정
 
-git commit -am 'feat (#189) : 게시판 작성 기능 구현'
-디렉토리 구조 및 네이밍 컨벤션
-디렉토리 구조
-네이밍 컨벤션
+🔗 프로젝트 컨벤션 정리 :
+<br/><브랜치명 설명 예시><br/>
+- main 배포용 브랜치 main
+- dev 통합(개발)용 브랜치 dev
+- feature/ 기능 개발 브랜치 feature/login
+- bugfix/ 버그 수정 브랜치 bugfix/nav-bar
+- hotfix/ 긴급 패치 브랜치 hotfix/payment
+- chore/ 문서, 설정파일 변경 chore/update-readme
+- docs/ 문서 작업 브랜치 docs/api-guide
+- refactor/ 리팩토링 브랜치 refactor/homepage-ui
 
-1.디렉토리 및 폴더명
+<br/><커밋 메시지><br/>
+- feat (#이슈번호) 새로운 기능 추가
+- fix (#이슈번호) 버그 수정
+- docs (#이슈번호) 문서 수정
+- style (#이슈번호) 공백, 세미콜론 등 스타일 수정
+- refactor (#이슈번호) 코드 리팩토링
+- perf (#이슈번호) 성능 개선
+- test (#이슈번호) 테스트 추가
+- chore (#이슈번호) 빌드 과정 또는 보조 기능(문서 생성 기능 등) 수정
+- design (#이슈번호) 기능 수정 없이 스타일(CSS)만 수정
 
-- 소문자로 작성하며, 카멜케이스를 사용.
+<폴더 및 파일>
+- 1.디렉토리 및 폴더명
+  소문자로 작성하며, 카멜케이스를 사용.
+- 2.파일명
+  컴포넌트 파일명: PascalCase를 사용하여 작성.
+  일반 파일명: 소문자와 **하이픈(-)**을 사용하여 작성.
+  이미지파일명 : img→suffix
+  boolean타입 리턴 or 함수값은 : is→prefix
+- 3.컴포넌트명
+  PascalCase를 사용하여 작성.
+  컴포넌트 파일명과 일치시킴.
+- 4.CSS 클래스명
+  BEM(Block Element Modifier) 규칙을 사용.
+- 5.상수명
+  모든 글자를 대문자로 작성하고, 단어 사이에 언더바(\_) 사용.
+- 6.함수명 및 변수명
+  camelCase를 사용하여 작성.
+- 7.프로퍼티 및 메소드명 (React)
+  camelCase를 사용하여 작성.
+  메소드명은 handle로 시작.
+<br/>
 
-  2.파일명
+## 0. 팀원 소개
 
-- 컴포넌트 파일명: PascalCase를 사용하여 작성.
-- 일반 파일명: 소문자와 **하이픈(-)**을 사용하여 작성.
-- 이미지파일명 : img→suffix
-- boolean타입 리턴 or 함수값은 : is→prefix
+<table>
+   <tr>
+    <td align="center"><b>김동우</b></td>
+    <td align="center"><b>오원택</b></td>
+    <td align="center"><b>유경민</b></td>
+    <td align="center"><b>유익환</b></td>
+    
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/noodlewd"><img src="https://avatars.githubusercontent.com/u/115952622?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/dhdnjs0702"><img src="https://avatars.githubusercontent.com/u/70424790?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/Yuuuuu-kko"><img src="https://avatars.githubusercontent.com/u/192576701?v=4" width="100px" /></a></td>
+    <td align="center"><a href="https://github.com/ick-web"><img src="https://avatars.githubusercontent.com/u/59636504?v=4" width="100px" /></a></td>
+    
+  </tr>
+  <tr>
+    <td align="center">Home<br/>Login<br/>발표</td>
+    <td align="center">Feed-Main<br/>발표자료<br/></td>
+    <td align="center">Feed-Detail<br/>Mypage<br/</td>
+    <td align="center">Feed-Add <br/>Feed-Content </td>
+    
+  </tr>
+</table>
 
-  3.컴포넌트명
+- 각자 맡은 역할을 다한 뒤에도, 다른 팀원의 작업을 도와주면서 완성했습니다 <br/><br/>
 
-- PascalCase를 사용하여 작성.
-- 컴포넌트 파일명과 일치시킴.
+## 0-1. 프로젝트 진행 기간
 
-  4.CSS 클래스명
+- 2025.02.11 ~ 2025.02.18<br/><br/>
 
-- BEM(Block Element Modifier) 규칙을 사용.
+## 0-2. 프로젝트 중에는..
 
-  5.상수명
+- 활발하게 진행 상황을 공유하기 위해 zep과 slack을 사용했어요
+- 전체적인 팀 프로젝트의 진행상황을 확인하기 위해 github project를 사용했어요
+- 코드리뷰하는 문화를 지향해요
+- pr에 2명 이상의 approve가 있어야 develop에 merge를 할 수 있도록 설정했어요
+  <br/><br/>
 
-- 모든 글자를 대문자로 작성하고, 단어 사이에 언더바(\_) 사용.
+## 1. 사용한 라이브러리
 
-  6.함수명 및 변수명
+### @supabase/supabase-js
+<img width="640" src="./src/assets/supabaseScreenShot.png"/>
+Supabase를 백엔드로 사용하여 실시간 데이터베이스를 사용했어요
+<br/>
 
-- camelCase를 사용하여 작성.
+### react-router-dom
 
-  7.프로퍼티 및 메소드명 (React)
+React Router를 사용하여 SPA의 라우팅을 관리했어요
 
-- camelCase를 사용하여 작성.
-- 메소드명은 handle로 시작.
+### styled-components
 
--------------------------------------------------------------------------------------------------------
-2/14 -> 변경사항 및 추가사항
-추가사항1. CommonNavBar컴포넌트 생성 및 기초 틀 생성
-추가사항2. FeedContent대신 사용할 테스트용으로 map함수로 화면에 글 뿌려주는 부분 추가
+CSS-in-JS 라이브러리인 Styled Components를 사용하여 컴포넌트 스타일링을 했어요
+### Sweet Alert2 pakage
 
-변경사항1. searchkey를 사용하여 검색결과를 불러오게 하였더니 검색창에 글자를 입력할때마다 결과가 바뀌는 문제 발생 -> searchedFeed라는 검색할 결과를 담는 배열을 사용하여 배열길이가 1이상인 경우 검색 결과를 보여주게 변경
+Swal fire UI를 이용하여 알림 창을 스타일링 했습니다.
 
-2/16 -> 변경사항 및 추가사항
-변경사항1. CommonNavBar 스타일드 컴포넌트 적용
-변경사항2. 검색창에 검색을 했을시 range를 사용하여 8개씩 불러오게 수정
+## 2. 대표기능
 
-추가사항1. BottomScrollListener컴포넌트를 사용하여 스크롤이 끝나게 되는경우 이벤트를 발생시켜 추가적인 8개의 글을 가져옴(웹 기준 스크롤이 생길려면 최소 8개가 되어야 해서 8개로 설정)
-추가사항2. CommonLoadingSpinner.jsx추가 페이지 이동 시 로딩을 정도를 보여주는 부분 -> 미완성
+- [x] 나의 작업물을 올릴 수 있어요<br />
+- [x] 다른 사람의 피드를 보고 열정을 얻을 수 있어요<br />
+- [x] 다른 사람의 피드가 마음에 든다면 좋아요를 누를 수 있어요<br />
+- [x] 회원 가입하고 나의 닉네임을 설정할 수 있어요<br />
 
- 
+## 3. 상세설명
+
+### 1. 메인페이지 피드 조회 기능
+<img width="640" src="./src/assets/feedmain.png"/><br/>
+- 8개씩 화면에 계속 출력됩니다
+<br/>
+
+### 2. 로그인 / 회원가입 기능
+<img width="640" src="./src/assets/login.png"/><br/>
+- 이메일을 통해 로그인과 회원가입을 할 수 있어요
+<br/>
+
+### 3. 게시글 작성 및 수정,삭제 기능
+<img width="640" src="./src/assets/feedadd.png"/><br/>
+- ➕ 버튼을 이용하여 에디터로 이미지와 글을 자유롭게 수정,삭제할 수 있어요<br/>
+
+### 4. 로그아웃 기능
+<img width="640" src="./src/assets/signout.png"/><br/>
+
+### 5. Sweet Alert pakege를 이용한 알림 창
+<img width="640" src="./src/assets/alert.png"/><br/>
+
+
+### 6. 검색
+<img width="640" src="./src/assets/search.png"/><br/>
+- 검색 창에 원하는 제목,내용이 일치하는 결과를 검색 해볼수 있습니다
+<br/><br/>
+
