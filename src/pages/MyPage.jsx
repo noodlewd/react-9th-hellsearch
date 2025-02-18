@@ -133,7 +133,7 @@ const MyPage = () => {
     setProfileUrl(DEFAULT_PROFILE_IMAGE);
   };
   const moveFeedMain = () => {
-    navigate("/feedmain");
+    navigate("../feedmain");
   };
   return (
     <MyBox>
