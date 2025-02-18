@@ -1,184 +1,169 @@
-// 동우님에게 setNickname(existData[0].nickname);가 아닌 setusers로 변경 부탁할것
-// 동우님에게 30번째줄.select("nickname") 별표로 받아올것 user가 필요
 import React, { useContext, useEffect, useState } from "react";
 import supabase from "../supabase/client";
 import { useNavigate } from "react-router-dom";
 import { HealthContext } from "../context/HealthProvider";
-import { MypageBox, MypageButton, MypageImg, MypageInput, MypageLabel, MypageTitle } from "../styled/MypageComponent";
-import defaultImg from "../assets/mainlogo.png";
+import { MyBox, MyForm, MyInput, MyLabel, MyTitle } from "../styled/UserMyPageCompoment ";
 import Swal from "sweetalert2";
+// :흰색_확인_표시: 기본 프로필 이미지 URL (Supabase Storage에서 복사한 URL로 변경)
 
-const DEFAULT_PROFILE_IMAGE = "https://your-default-image-url.com/default.png"; // 디폴트 프로필 이미지 URL
-// css, 이미지 경로수정, 아래쪽 주석들 보고 질문
-
+const DEFAULT_PROFILE_IMAGE = `https://gczslnpcrrjjtymyvvso.supabase.co/storage/v1/object/public/feed_img/public/mydefault.png`;
 const MyPage = () => {
-  const [myPosts, setMyPosts] = useState([]);
-  const [loadingPosts, setLoadingPosts] = useState(false);
-
-  const fetchMyPosts = async () => {
-    setLoadingPosts(true); // 수정 필요
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-    if (userError) {
-      console.error("사용자 정보를 가져오는 데 실패했습니다:", userError);
-      setLoadingPosts(false);
-      return;
-    }
-    const userId = userData?.user?.id;
-    if (!userId) {
-      console.error("사용자 ID를 찾을 수 없습니다.");
-      setLoadingPosts(false);
-      return;
-    }
-    const { data: posts, error: postError } = await supabase.from("feeds").select("*").eq("user_id", userId);
-    if (postError) {
-      console.error("게시물을 가져오는 데 실패했습니다:", postError);
-    } else {
-      setMyPosts(posts);
-    }
-    setLoadingPosts(false);
-  };
-
-  useEffect(() => {
-    fetchMyPosts();
-  }, []);
-
   const navigate = useNavigate();
   const { profileUrl, setProfileUrl, nickname, setNickname, email, setEmail, phoneNum, setPhoneNum } =
     useContext(HealthContext);
-  const [myNickname, setMyNickname] = useState(nickname);
-  const [myEmail, setMyEmail] = useState(email);
-  const [myPhoneNum, setMyPhoneNum] = useState(phoneNum);
-  const [isMyUploading, isSetMyUploading] = useState(false);
-
-  // 닉네임 중복 검사
-  const checkMyNickname = async (myNickname) => {
-    const { data, error } = await supabase.from("users").select("nickname").eq("nickname", myNickname);
-
-    if (error) {
-      console.error("닉네임 중복 검사 실패:", error);
-      return false;
-    }
-
-    return data.length > 0; // 중복된 닉네임이 있으면 true 반환
-  };
-
-  // 회원 정보 업데이트
-  const handleMyProfileUpdate = async () => {
-    const updates = {}; // 변경된 데이터만 저장
-
-    // 닉네임 변경 시 중복 검사 후 업데이트 진행
-    if (myNickname && myNickname !== nickname) {
-      const exists = await checkMyNickname(myNickname);
-      if (exists) {
-        Swal.fire("이미 사용 중인 닉네임입니다.");
+  console.log(":흰색_확인_표시: setProfileUrl 확인:", setProfileUrl);
+  const [myNickname, setMyNickname] = useState("");
+  const [myEmail, setMyEmail] = useState("");
+  const [myPhoneNum, setMyPhoneNum] = useState("");
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      console.log(":로켓: 사용자 정보 불러오기 시작");
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData?.user) {
+        console.error(":x: 사용자 정보를 불러오는 데 실패:", userError);
         return;
       }
-      updates.nickname = myNickname;
-    }
-
-    if (myEmail && myEmail !== email) updates.email = myEmail;
-    if (myPhoneNum && myPhoneNum !== phoneNum) updates.phoneNum = myPhoneNum;
-
-    if (Object.keys(updates).length === 0) {
-      Swal.fire("변경된 내용이 없습니다.");
+      const userId = userData.user.id;
+      const userEmail = userData.user.email;
+      console.log(":흰색_확인_표시: 현재 로그인한 유저 ID:", userId);
+      console.log(":흰색_확인_표시: 현재 로그인한 유저 이메일:", userEmail);
+      const { data: userProfile, error: profileError } = await supabase
+        .from("users")
+        .select("nickname, phone_num, profile_img")
+        .eq("user_id", userId)
+        .single();
+      if (profileError) {
+        console.error(":x: users 테이블에서 프로필 정보를 가져오는 데 실패:", profileError);
+        return;
+      }
+      console.log(":흰색_확인_표시: users 테이블에서 불러온 프로필 정보:", userProfile);
+      let profileImageUrl = DEFAULT_PROFILE_IMAGE;
+      if (userProfile.profile_img) {
+        profileImageUrl = `https://gczslnpcrrjjtymyvvso.supabase.co/storage/v1/object/public/feed_img/${userProfile.profile_img}`;
+      }
+      console.log("최종 프로필 이미지 URL:", profileImageUrl);
+      setNickname(userProfile.nickname || "");
+      setEmail(userEmail || "");
+      setPhoneNum(userProfile.phone_num || "");
+      if (typeof setProfileUrl === "function") {
+        setProfileUrl(profileImageUrl);
+      } else {
+        console.warn("setProfileUrl is not defined");
+      }
+      setMyNickname(userProfile.nickname || "");
+      setMyEmail(userEmail || "");
+      setMyPhoneNum(userProfile.phone_num || "");
+    };
+    fetchUserInfo();
+  }, []);
+  const updateUserProfile = async () => {
+    if (!myNickname || !myEmail || !myPhoneNum) {
+      Swal.fire("모든 정보를 입력해주세요.");
       return;
     }
-
-    const { error } = await supabase.from("users").update(updates).eq("nickname", nickname);
-
-    if (error) {
-      Swal.fire("프로필 업데이트 실패");
-      console.error("업데이트 오류:", error);
+    // :흰색_확인_표시: 현재 로그인한 유저 정보 가져오기
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    if (userError || !userData?.user) {
+      console.error("사용자 정보를 가져오는 데 실패:", userError);
       return;
     }
-
-    // Context 상태 업데이트
-    if (updates.nickname) setNickname(updates.nickname);
-    if (updates.email) setEmail(updates.email);
-    if (updates.phoneNum) setPhoneNum(updates.phoneNum);
-
-    Swal.fire("회원 정보가 업데이트되었습니다!");
-  };
-
-  // 프로필 이미지 업로드
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    isSetMyUploading(true);
-
-    const filePath = `profiles/${nickname}_${Date.now()}.png`; // 경로 질문!!
-
-    const { error: uploadError } = await supabase.storage
-      .from("profile_pictures")
-      .upload(filePath, file, { upsert: true });
-
-    if (uploadError) {
-      Swal.fire("이미지 업로드 실패");
-      isSetMyUploading(false);
+    const userId = userData.user.id;
+    // :흰색_확인_표시: 닉네임 중복 체크
+    const { data: existingUser, error: checkError } = await supabase
+      .from("users")
+      .select("user_id")
+      .eq("nickname", myNickname)
+      .neq("user_id", userId)
+      .maybeSingle();
+    if (checkError) {
+      console.error("닉네임 중복 확인 중 오류 발생:", checkError);
       return;
     }
-
-    const { data } = supabase.storage.from("profile_pictures").getPublicUrl(filePath);
-
-    const newProfileUrl = data.publicUrl;
-
-    // DB 업데이트
+    if (existingUser) {
+      Swal.fire("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
+      return;
+    }
+    // :흰색_확인_표시: 사용자 정보 업데이트 (email → e_mail로 변경)
     const { error: updateError } = await supabase
       .from("users")
-      .update({ profile_url: newProfileUrl })
-      .eq("nickname", nickname);
-
+      .update({
+        nickname: myNickname,
+        phone_num: myPhoneNum,
+        e_mail: myEmail, // :불: 수정된 부분!
+      })
+      .eq("user_id", userId);
     if (updateError) {
-      Swal.fire("프로필 이미지 업데이트 실패");
+      console.error("프로필 업데이트 실패:", updateError);
+      Swal.fire("업데이트 중 오류가 발생했습니다.");
       return;
     }
-
-    setProfileUrl(newProfileUrl); // 상태 업데이트
-    isSetMyUploading(false);
+    Swal.fire("프로필이 성공적으로 업데이트되었습니다!");
+    // Context API 상태 업데이트
+    setNickname(myNickname);
+    setEmail(myEmail);
+    setPhoneNum(myPhoneNum);
   };
 
+  // 이미지 업로드 함수 추가
+  const handleProfileImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `profile_images/${fileName}`;
+    try {
+      let { data, error: uploadError } = await supabase.storage.from("feed_img").upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+      if (uploadError) {
+        Swal.fire("이미지 업로드에 실패했습니다.");
+        return;
+      }
+      const { data: publicURLData } = supabase.storage.from("feed_img").getPublicUrl(filePath);
+      const newProfileImageUrl = publicURLData.publicUrl;
+      setProfileUrl(newProfileImageUrl);
+    } catch (error) {
+      console.error("이미지 업로드 중 오류 발생:", error);
+      Swal.fire("업로드 중 문제가 발생했습니다.");
+    }
+  };
+  // 이미지 삭제 함수 추가
+  const handleProfileImageDelete = async () => {
+    setProfileUrl(DEFAULT_PROFILE_IMAGE);
+  };
+  const moveFeedMain = () => {
+    navigate("/feedmain");
+  };
   return (
-    <MypageBox>
-      <MypageTitle>My Page</MypageTitle>
-      <MypageImg src={profileUrl || defaultImg} alt={defaultImg} />
-      <MypageButton onClick={() => document.getElementById("profile-upload").click()}>이미지 수정하기</MypageButton>
+    <MyBox>
+      <MyTitle>My Page</MyTitle>
+      <img src={profileUrl || DEFAULT_PROFILE_IMAGE} alt="Profile" width={200} />
       <input
-        id="profile-upload"
         type="file"
-        accept="image/*" // 경로 체크 !!
-        onChange={handleImageUpload}
-        hidden
+        accept="image/*"
+        onChange={handleProfileImageUpload}
+        style={{ display: "none" }}
+        id="fileInput"
       />
-
-      {isMyUploading && <p>업로드 중...</p>}
-      <MypageLabel>
-        닉네임:
-        <MypageInput
-          type="text"
-          value={myNickname}
-          placeholder="변경할 닉네임을 입력해주세요."
-          onChange={(e) => setMyNickname(e.target.value)}
-        />
-      </MypageLabel>
-      <MypageLabel>
-        e-mail:
-        <MypageInput
-          type="email"
-          value={myEmail}
-          placeholder="변경할 이메일을 입력해주세요."
-          onChange={(e) => setMyEmail(e.target.value)}
-        />
-      </MypageLabel>
-      <MypageLabel>
-        휴대폰:
-        <MypageInput type="text" placeholder="ex) 010-xxxx-xxxx" onChange={(e) => setMyPhoneNum(e.target.value)} />
-      </MypageLabel>
-      {/* <MypageButton onClick={fetchMyPosts}>내 게시물 보기</MypageButton> */}
-      <MypageButton onClick={handleMyProfileUpdate}>수정하기</MypageButton>
-      <MypageButton onClick={() => navigate(-1)}>뒤로가기 </MypageButton>
-    </MypageBox>
+      <button onClick={() => document.getElementById("fileInput").click()}>이미지 수정하기</button>
+      <button onClick={handleProfileImageDelete}>이미지 삭제하기</button>
+      <MyForm>
+        <MyLabel>
+          <label>닉네임:</label>
+          <MyInput type="text" value={myNickname} onChange={(e) => setMyNickname(e.target.value)} />
+          <label>e-mail:</label>
+          <MyInput type="email" value={myEmail} onChange={(e) => setMyEmail(e.target.value)} />
+          <label>휴대폰:</label>
+          <MyInput type="text" value={myPhoneNum} onChange={(e) => setMyPhoneNum(e.target.value)} />
+          {/*수정 버튼에 onClick 이벤트 추가 */}
+          <button type="button" onClick={updateUserProfile}>
+            수정하기
+          </button>
+          <button onClick={moveFeedMain}>뒤로가기</button>
+        </MyLabel>
+      </MyForm>
+    </MyBox>
   );
 };
-
 export default MyPage;
